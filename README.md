@@ -1,8 +1,8 @@
 # ChartFactor Node
 
-ChartFactor Node (CFN) is a thin server wrapper to enable the server-side execution of ChartFactor Toolkit (CFT) data providers.  This allows you to apply custom logic such as filters on the server side before executing the actual queries on the data engine.  This is useful in multi-tenant scenarios where data from multiple accounts reside on the same table and you need to ensure end users only see data related to their account.
+This project is a reference implementation of a ChartFactor Node server running ChartFactor data providers on the server-side to power lightweight visual analytics. Refer to the [ChartFactor Node documentation](https://chartfactor.com/doc/latest/data_providers/cfnode/) to connect your web data applications to a ChartFactor Node server. 
 
-It currently supports the Elasticsearch, BigQuery, and Redshift data providers.
+Running data providers on the server-side allows you to apply custom logic such as filters before executing the actual queries on the data engine. It currently supports the Elasticsearch, BigQuery, and Redshift data providers.
 
 ## Getting ready
 
