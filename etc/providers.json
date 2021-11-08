@@ -1,0 +1,21 @@
+[
+    {
+        "name":"Elasticsearch",
+        "provider":"elasticsearch",
+        "url":"https://chartfactor.com/elastic/"
+    },{
+        "name":"ElasticLocal",
+        "provider":"elasticsearch",
+        "url":"http://localhost:9200/"
+    },{
+        "name":"RedshiftLocal",
+        "provider":"redshift",
+        "url":"http://localhost:3000/",
+        "bypassAuth": true
+    },{
+        "name": "BigQuery",
+        "provider": "google-bigquery",
+        "projectId": "tidal-solstice-206117",
+        "file": "etc/bigquery-private-key.json"
+    }
+]

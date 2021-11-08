@@ -1,0 +1,13 @@
+{
+    "Elasticsearch::ticket_sales": [
+        {
+            "path": "venuestate",
+            "label": "venuestate",
+            "enabled": true,
+            "operation": "NOT IN",
+            "value": [
+                "CA", "CO"
+            ]
+        }
+    ]
+}

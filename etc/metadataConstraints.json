@@ -1,0 +1,8 @@
+{
+    "Elasticsearch::chicago_taxi_trips": {
+        "remove": ["pickup_census_tract"]
+    },
+    "Elasticsearch::ticket_sales": {
+        "remove": []
+    }
+}

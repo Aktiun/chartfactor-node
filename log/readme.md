@@ -1,0 +1,1 @@
+In production set the logger level to error in /src/index.js, otherwise clean this directory periodically.

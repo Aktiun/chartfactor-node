@@ -1,0 +1,7 @@
+node_modules/*
+.DS_Store
+*.dev.js
+*.js.map
+.vscode/*
+etc/bigquery-private-key.json
+log/log.txt
