@@ -6,7 +6,9 @@ It currently supports the Elasticsearch, BigQuery, and Redshift data providers.
 
 ## Getting ready
 
-To set up dependencies please run: `npm install`
+Make sure you are running Node v16.5.0 or later.
+
+To set up dependencies, please run: `npm install`
 
 ## Executing ChartFactor Node
 
