@@ -1,6 +1,6 @@
 ChartFactor-node is licensed for use as follows:
 
-"""
+```
 
 Copyright (c) Aktiun Inc. All rights reserved.
 
@@ -10,12 +10,12 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-"""
+```
 
-This license applies to ChartFactor Platform libraries inside the cft folder such as cft-elasticsearch-provider.min.js and cft-redshift-provider.min.js.
+This license applies to ChartFactor Platform libraries inside the cft folder such as cft-elasticsearch-provider.min.js, cft-google-bigquery-provider, and cft-redshift-provider.min.js.
 
-"""
+```
 
 Refer to https://chartfactor.com/terms-of-use for terms of use.
 
-"""
+```
