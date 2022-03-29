@@ -1,6 +1,6 @@
 {
   "name": "cft-google-bigquery-provider",
-  "version": "3.0.8",
+  "version": "3.0.9",
   "description": "",
   "main": "cft-google-bigquery-provider.min.js",
   "scripts": {
