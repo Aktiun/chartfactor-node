@@ -88,6 +88,25 @@ async function routes(fastify, options) {
         return resp;
     });
 
+    fastify.post('/addCFNodeSource/', async (request, reply) => {
+        let queryConfig = request.body;
+
+        if (!queryConfig || !queryConfig.sourceName || !queryConfig.sourceConfig) {
+            reply.code(417).type('text/html').send('Expectation Failed. sourceName and sourceConfig are required.');
+            return null;
+        }
+
+        try {
+            providerInstances[queryConfig.source]
+                .addSourceMetaData(queryConfig.sourceName, queryConfig.sourceConfig);
+        } catch (err) {
+            console.error(err);
+            return err;
+        }
+        reply.code(200)
+        return true;
+    });
+
     fastify.post('/runCountQuery/', async (request, reply) => {
         let countQuery = request.body;
 
@@ -221,7 +240,7 @@ async function routes(fastify, options) {
                     if(!_.startsWith(ds.id, `${dsId}::`)) {
                         ds.id = `${dsId}::${ds.id}`;
                         ds.name = `${dsId}::${ds.name}`;
-                    }                    
+                    }
                     ds.providerType = providerInstances[dsId]._providerCfg.provider;
                 });
             } else {
