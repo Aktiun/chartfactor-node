@@ -5,3 +5,4 @@ node_modules/*
 .vscode/*
 etc/bigquery-private-key.json
 log/log.txt
+*.idea
