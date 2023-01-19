@@ -17,12 +17,19 @@ cft_lib_dir = os.path.join(cft_project_base, 'lib')
 cft_assets_dir = os.path.join(cft_project_base, 'demos', 'assets')
 cfs_cft_base = os.path.join(cfs_project_base, 'cft')
 
+libs = ['cftoolkit']
 assets = ['cft-elasticsearch-provider','cft-redshift-provider', 'cft-google-bigquery-provider']
 #'cft-dremio-provider', 'cft-google-bigquery-provider', 'cft-ksql-provider', 'cft-sparksql-provider', 'cft-zoomdata-provider']
 
 all_sufix = ['.js', '.js.map', '.dev.js', '.dev.js.map', '.min.js', '.min.js.map']
 
 def clean():
+    for lib in libs:
+        for sufix in all_sufix:
+            try:
+                os.remove(os.path.join(cfs_cft_base, lib, lib + sufix))
+            except:
+                pass
     for asset in assets:
         for sufix in all_sufix:
             try:
@@ -35,6 +42,14 @@ def prod():
     print("Importing production ready CFT using the following directories:")
     print("cfs_project_base", cfs_project_base)
     print("cft_project_base", cft_project_base)
+
+    for lib in libs:
+        try:
+            from_file = os.path.join(cft_lib_dir, lib + '.min.js')
+            to_file = os.path.join(cfs_cft_base, lib, lib + '.min.js')
+            copyfile(from_file, to_file)
+        except:
+            print('The %s file could not be copied' % lib)
 
     for asset in assets:
         try:
@@ -49,6 +64,14 @@ def dev():
     print("Importing development CFT using the following directories:")
     print("cfs_project_base", cfs_project_base)
     print("cft_project_base", cft_project_base)
+
+    for lib in libs:
+        try:
+            from_file = os.path.join(cft_lib_dir, lib + '.js')
+            to_file = os.path.join(cfs_cft_base, lib, lib + '.min.js')
+            copyfile(from_file, to_file)
+        except Exception as e:
+            print(e, 'The %s file could not be link' % lib)
 
     for asset in assets:
         try:
