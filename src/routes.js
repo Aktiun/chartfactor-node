@@ -9,6 +9,7 @@ const rawdata = fs.readFileSync(path.join(__dirname, '..', 'etc', 'providers.jso
 const providers = JSON.parse(rawdata);
 
 // Supported providers
+require('../cft/cftoolkit')
 const ElasticProvider = require('../cft/cft-elasticsearch-provider');
 const RedshiftProvider = require('../cft/cft-redshift-provider');
 const BigQueryProvider = require('../cft/cft-google-bigquery-provider');
