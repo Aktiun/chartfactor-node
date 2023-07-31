@@ -13,16 +13,22 @@ require('../cft/cftoolkit')
 const ElasticProvider = require('../cft/cft-elasticsearch-provider');
 const RedshiftProvider = require('../cft/cft-redshift-provider');
 const BigQueryProvider = require('../cft/cft-google-bigquery-provider');
+const DataBricksProvider = require('../cft/cft-databricks-provider');
 
 const providerInstances = {};
 const ProviderTypeMap = {
     'elasticsearch': ElasticProvider,
     'redshift': RedshiftProvider,
-    'google-bigquery': BigQueryProvider
+    'google-bigquery': BigQueryProvider,
+    'databricks': DataBricksProvider
 };
 
 providers.forEach(p => {
-    providerInstances[p.name] = new ProviderTypeMap[p.provider](p);
+    if (p.provider === 'databricks') {
+        providerInstances[p.name] = new ProviderTypeMap[p.provider][p.provider](p);
+    } else {
+        providerInstances[p.name] = new ProviderTypeMap[p.provider](p);
+    }
 });
 
 const applyMetadataGlobalConstraints = result => {
@@ -239,7 +245,7 @@ async function routes(fastify, options) {
 
                 result.forEach(ds => {
                     if(!_.startsWith(ds.id, `${dsId}::`)) {
-                        ds.id = `${dsId}::${ds.id}`;
+                        ds.id = `${dsId}::${ds.id || ds.name}`;
                         ds.name = `${dsId}::${ds.name}`;
                     }
                     ds.providerType = providerInstances[dsId]._providerCfg.provider;

@@ -18,7 +18,7 @@ cft_assets_dir = os.path.join(cft_project_base, 'demos', 'assets')
 cfs_cft_base = os.path.join(cfs_project_base, 'cft')
 
 libs = ['cftoolkit']
-assets = ['cft-elasticsearch-provider','cft-redshift-provider', 'cft-google-bigquery-provider']
+assets = ['cft-elasticsearch-provider','cft-redshift-provider', 'cft-google-bigquery-provider', 'cft-databricks-provider']
 #'cft-dremio-provider', 'cft-google-bigquery-provider', 'cft-ksql-provider', 'cft-sparksql-provider', 'cft-zoomdata-provider']
 
 all_sufix = ['.js', '.js.map', '.dev.js', '.dev.js.map', '.min.js', '.min.js.map']
