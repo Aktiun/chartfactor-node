@@ -245,7 +245,7 @@ async function routes(fastify, options) {
 
                 result.forEach(ds => {
                     if(!_.startsWith(ds.id, `${dsId}::`)) {
-                        ds.id = `${dsId}::${ds.id || ds.name}`;
+                        ds.id = `${dsId}::${ds.id}`;
                         ds.name = `${dsId}::${ds.name}`;
                     }
                     ds.providerType = providerInstances[dsId]._providerCfg.provider;

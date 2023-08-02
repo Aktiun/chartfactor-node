@@ -19,10 +19,8 @@
         "file": "etc/bigquery-private-key.json"
     },{
         "name": "DataBricks",
-        "token": "",
-        "host": "dbc-c455637b-fce1.cloud.databricks.com",
-        "path": "/sql/1.0/warehouses/6f6565a6b9742ba5",
         "active": true,
+        "file": "etc/databricks-private-key.json",
         "provider": "databricks",
         "metadata": {}
     }
