@@ -20,8 +20,10 @@
     },{
         "name": "Databricks",
         "active": true,
-        "file": "etc/databricks-private-key.json",
+        "file": "etc/databricks-token.json",
         "provider": "databricks",
+        "host": "dbc-c455637b-fce1.cloud.databricks.com",
+        "warehouseId": "6f6565a6b9742ba5",
         "metadata": {}
     }
 ]

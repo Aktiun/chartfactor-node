@@ -25,10 +25,12 @@ const ProviderTypeMap = {
 
 providers.forEach(p => {
     if (p.provider === 'databricks') {
-        providerInstances[p.name] = new ProviderTypeMap[p.provider][p.provider](p);
-    } else {
-        providerInstances[p.name] = new ProviderTypeMap[p.provider](p);
+        const file = fs.readFileSync(`${process.cwd()}/${p.file}`, 'utf8');
+        const fileConf = JSON.parse(file);
+
+        p.token = fileConf.token;
     }
+    providerInstances[p.name] = new ProviderTypeMap[p.provider](p);
 });
 
 const applyMetadataGlobalConstraints = result => {
