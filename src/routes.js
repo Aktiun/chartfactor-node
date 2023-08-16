@@ -13,15 +13,23 @@ require('../cft/cftoolkit')
 const ElasticProvider = require('../cft/cft-elasticsearch-provider');
 const RedshiftProvider = require('../cft/cft-redshift-provider');
 const BigQueryProvider = require('../cft/cft-google-bigquery-provider');
+const DataBricksProvider = require('../cft/cft-databricks-provider');
 
 const providerInstances = {};
 const ProviderTypeMap = {
     'elasticsearch': ElasticProvider,
     'redshift': RedshiftProvider,
-    'google-bigquery': BigQueryProvider
+    'google-bigquery': BigQueryProvider,
+    'databricks': DataBricksProvider
 };
 
 providers.forEach(p => {
+    if (p.provider === 'databricks') {
+        const file = fs.readFileSync(`${process.cwd()}/${p.file}`, 'utf8');
+        const fileConf = JSON.parse(file);
+
+        p.token = fileConf.token;
+    }
     providerInstances[p.name] = new ProviderTypeMap[p.provider](p);
 });
 

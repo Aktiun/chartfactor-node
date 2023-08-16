@@ -1,0 +1,11 @@
+{
+  "name": "cft-databricks-provider",
+  "version": "4.1.13",
+  "description": "",
+  "main": "cft-databricks-provider.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

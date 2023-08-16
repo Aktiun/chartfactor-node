@@ -17,5 +17,13 @@
         "provider": "google-bigquery",
         "projectId": "tidal-solstice-206117",
         "file": "etc/bigquery-private-key.json"
+    },{
+        "name": "Databricks",
+        "active": true,
+        "file": "etc/databricks-token.json",
+        "provider": "databricks",
+        "host": "dbc-c455637b-fce1.cloud.databricks.com",
+        "warehouseId": "6f6565a6b9742ba5",
+        "metadata": {}
     }
 ]
