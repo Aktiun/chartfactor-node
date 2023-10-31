@@ -31,28 +31,22 @@ function buildFastify() {
     });
 
     console.log('log level: ', process.env.LOG_LEVEL);
-
     if (process.env.LOG_LEVEL === 'debug') {
         const interceptor = new ClientRequestInterceptor()
-
         interceptor.apply();
-
         interceptor.on('response', (response, request) => {
-
             const headers = {
                 'User-Agent': request.headers.get('User-Agent'),
                 'Content-Type': request.headers.get('Content-Type'),
                 'Accept': request.headers.get('Accept'),
                 'Accept-Encoding': request.headers.get('Accept-Encoding')
             };
-
             const reqJson = {
                 method: request.method,
                 url: request.url,
                 headers: headers,
             };
-
-            fastify.log.debug(`***************************** external request ****************************`);
+            fastify.log.debug(`******* external request *******`);
             fastify.log.debug(reqJson);
         })
     }
