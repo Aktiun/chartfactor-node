@@ -7,3 +7,4 @@ etc/bigquery-private-key.json
 etc/databricks-token.json
 log/log.txt
 *.idea
+.env
