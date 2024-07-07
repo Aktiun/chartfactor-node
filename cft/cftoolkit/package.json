@@ -1,6 +1,6 @@
 {
   "name": "cftoolkit",
-  "version": "5.1.4",
+  "version": "5.1.6",
   "description": "",
   "main": "cftoolkit.min.js",
   "scripts": {
