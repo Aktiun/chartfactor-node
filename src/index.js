@@ -5,7 +5,7 @@ require('make-promises-safe'); // installs an 'unhandledRejection' handler
 const path = require('path');
 const _ = require('lodash');
 require('dotenv').config();
-let logFilePath = process.env.FASTIFY_LOG_PATH || path.join(__dirname, '..', 'log', 'fastify-logs.txt');
+let logFilePath = process.env.FASTIFY_LOG_PATH || path.join(__dirname, '..', 'log', 'fastify.log');
 
 function buildFastify() {
     const fastify = require('fastify')({

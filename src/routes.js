@@ -20,7 +20,7 @@ cf.log.methodFactory = function (methodName, logLevel, loggerName) {
 
     return (...args) => {
         // Define the log file path
-        const logFilePath = process.env.CF_LOG_PATH || path.join(__dirname, '..', 'log', 'cft-log.log');
+        const logFilePath = process.env.CF_LOG_PATH || path.join(__dirname, '..', 'log', 'chartfactor.log');
 
         if (!fs.existsSync(logFilePath)) {
             fs.mkdirSync(path.dirname(logFilePath), { recursive: true });
