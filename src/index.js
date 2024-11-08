@@ -4,14 +4,14 @@ const { ClientRequestInterceptor } = require('@mswjs/interceptors/lib/intercepto
 require('make-promises-safe'); // installs an 'unhandledRejection' handler
 const path = require('path');
 const _ = require('lodash');
-let logFilePath = path.join(__dirname, '..', 'log', 'log.txt');
 require('dotenv').config();
+let logFilePath = process.env.FASTIFY_LOG_PATH || path.join(__dirname, '..', 'log', 'fastify.log');
 
 function buildFastify() {
     const fastify = require('fastify')({
         bodyLimit: 999999999,
         logger: {
-            level: process.env.LOG_LEVEL || 'info',
+            level: process.env.FASTIFY_LOG_LEVEL || 'info',
             file: logFilePath
         }
     });
@@ -30,7 +30,7 @@ function buildFastify() {
         fastify.log.info(`server listening on ${address}`);
     });
 
-    console.log('log level: ', process.env.LOG_LEVEL);
+    console.log('fastify log level: ', process.env.FASTIFY_LOG_LEVEL);
     if (process.env.LOG_LEVEL === 'debug') {
         const interceptor = new ClientRequestInterceptor()
         interceptor.apply();

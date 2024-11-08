@@ -5,6 +5,6 @@ node_modules/*
 .vscode/*
 etc/bigquery-private-key.json
 etc/databricks-token.json
-log/log.txt
+*.log
 *.idea
 .env

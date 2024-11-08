@@ -10,6 +10,35 @@ const providers = JSON.parse(rawdata);
 
 // Supported providers
 require('../cft/cftoolkit')
+
+const cf = global.cf;
+
+const originalFactory = cf.log.methodFactory;
+
+cf.log.methodFactory = function (methodName, logLevel, loggerName) {
+    const rawMethod = originalFactory(methodName, logLevel, loggerName);
+
+    return (...args) => {
+        // Define the log file path
+        const logFilePath = process.env.CF_LOG_PATH || path.join(__dirname, '..', 'log', 'chartfactor.log');
+
+        if (!fs.existsSync(logFilePath)) {
+            fs.mkdirSync(path.dirname(logFilePath), { recursive: true });
+            fs.writeFileSync(logFilePath, '');
+        }
+
+        // Append the log entry to the file
+        const logMessage = `${new Date().toISOString()} ${methodName.toUpperCase()}: ${args.join(' ')}\n`;
+        fs.appendFileSync(logFilePath, logMessage);
+
+        // Write to the original `loglevel` output
+        rawMethod(...args);
+    };
+};
+
+// Apply the new method factory
+cf.log.setLevel(cf.log.getLevel());
+
 const ElasticProvider = require('../cft/cft-elasticsearch-provider');
 const RedshiftProvider = require('../cft/cft-redshift-provider');
 const BigQueryProvider = require('../cft/cft-google-bigquery-provider');
