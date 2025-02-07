@@ -7,11 +7,96 @@ const metadataGlobalConstraints = require('../etc/metadataConstraints.json');
 const staticFilters = require('../etc/staticFilters.json');
 const rawdata = fs.readFileSync(path.join(__dirname, '..', 'etc', 'providers.json'));
 const providers = JSON.parse(rawdata);
+const axios = require('axios');
+const qs = require('qs');
 
 // Supported providers
 require('../cft/cftoolkit')
 
 const cf = global.cf;
+
+const auth = {};
+const baseUrl = `${process.env.CF_AUTH_URL}/realms/${process.env.CF_AUTH_REALM}/`;
+
+async function login() {
+    try {
+        let data = qs.stringify({
+            'client_id': auth.clientId,
+            'client_secret': auth.clientSecret,
+            'grant_type': 'client_credentials',
+            'scope': 'openid profile email'
+        });
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `${baseUrl}protocol/openid-connect/token`,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data : data
+        };
+
+        const response = await axios.request(config);
+
+        if (response.status !== 200) {
+            return false;
+        }
+
+        const authInfo = response.data;
+
+        auth.token = authInfo.access_token;
+
+        return true;
+    } catch (e) {
+        console.error(e);
+        return false;
+    }
+}
+
+async function validateToken(request, reply) {
+    try {
+
+        if (!auth.token) {
+            const loginResponse = await login();
+
+            if (!loginResponse) {
+                reply.code(401).send({ error: 'Unauthorized. Invalid or expired token.' });
+                return;
+            }
+        }
+
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `${baseUrl}protocol/openid-connect/userinfo`,
+            headers: {
+                'Authorization': `Bearer ${auth.token}`
+            }
+        };
+        const response = await axios.request(config);
+
+        if (response.status !== 200) {
+            reply.code(401).send({ error: 'Unauthorized. Invalid or expired token.' });
+            return;
+        }
+
+        const validateInfo = response.data;
+        const isValid = validateInfo && validateInfo.preferred_username && validateInfo.preferred_username === `service-account-${auth.clientId}`;
+
+        if (!isValid) {
+            reply.code(401).send({ error: 'Invalid or expired token' });
+        } else {
+            request.user = validateInfo
+        }
+
+        return;
+    } catch (e) {
+        console.error(e);
+        reply.code(401).send({ error: 'Error validating token' });
+        return;
+    }
+}
 
 const originalFactory = cf.log.methodFactory;
 
@@ -94,7 +179,7 @@ async function routes(fastify, options) {
         }
     });
 
-    fastify.post('/providers/', async (request, reply) => {
+    fastify.post('/providers/', {preHandler: validateToken}, async (request, reply) => {
         return providers.map(p => {
             return {
                 id: p.name,
@@ -105,7 +190,31 @@ async function routes(fastify, options) {
         });
     });
 
-    fastify.post('/visualize/', async (request, reply) => {
+    fastify.post('/setPAT/', async (request, reply) => {
+        let resp = null;
+        let config = request.body;
+
+        // config.PAT and config.clientId is required
+        if (!config || !config.PAT || !config.clientId) {
+            reply.code(417).type('text/html').send('Expectation Failed. PAT and clientId are required.');
+            return null;
+        }
+
+        auth.token = null;
+        auth.clientId = config.clientId;
+        auth.clientSecret = config.PAT;
+
+        if (await login()) {
+            reply.code(200);
+            resp = true;
+        } else {
+            reply.code(401).type('text/html').send('Unauthorized');
+            resp = false;
+        }
+        return resp;
+    });
+
+    fastify.post('/visualize/', {preHandler: validateToken}, async (request, reply) => {
         let resp = null;
         let queryConfig = request.body;
 
@@ -145,7 +254,7 @@ async function routes(fastify, options) {
         return true;
     });
 
-    fastify.post('/runCountQuery/', async (request, reply) => {
+    fastify.post('/runCountQuery/', {preHandler: validateToken}, async (request, reply) => {
         let countQuery = request.body;
 
         if (!countQuery) {
@@ -166,7 +275,7 @@ async function routes(fastify, options) {
         }
     });
 
-    fastify.post('/runRawQuery/', async (request, reply) => {
+    fastify.post('/runRawQuery/', {preHandler: validateToken}, async (request, reply) => {
         let def = request.body.definition;
 
         if (!def) {
@@ -187,7 +296,7 @@ async function routes(fastify, options) {
         }
     });
 
-    fastify.post('/getConfigParameters/', async (request, reply) => {
+    fastify.post('/getConfigParameters/', {preHandler: validateToken}, async (request, reply) => {
         let provider = request.body.provider;
 
         if (!provider) {
@@ -203,7 +312,7 @@ async function routes(fastify, options) {
         }
     });
 
-    fastify.post('/getDatasources/', async (request, reply) => {
+    fastify.post('/getDatasources/', {preHandler: validateToken}, async (request, reply) => {
         let provider = request.body.provider;
 
         try {
@@ -218,7 +327,7 @@ async function routes(fastify, options) {
         }
     });
 
-    fastify.post('/getDatasource/', async (request, reply) => {
+    fastify.post('/getDatasource/', {preHandler: validateToken}, async (request, reply) => {
         let provider = request.body.provider;
         let ds = request.body.name;
         let result = null;
@@ -255,7 +364,7 @@ async function routes(fastify, options) {
         }
     });
 
-    fastify.post('/getDatasourceById/', async (request, reply) => {
+    fastify.post('/getDatasourceById/', {preHandler: validateToken}, async (request, reply) => {
         let datasourceName = request.body.name;
 
         if (!datasourceName) {
