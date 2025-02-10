@@ -4,7 +4,9 @@ node_modules/*
 *.js.map
 .vscode/*
 etc/bigquery-private-key.json
+etc/td-bigquery-private-key.json
 etc/databricks-token.json
+etc/dev-bigquery-private-key.json
 *.log
 *.idea
 .env

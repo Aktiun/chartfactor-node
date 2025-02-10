@@ -54,3 +54,11 @@ You may want to apply filters to users requests so that they can only see a port
 ## Adding metadata constraints
 
 You may want to hide table columns from users. This project provides an example of how to do that. In the `etc/metadataConstraints.json` file you will find an example of a metadata constraint applied to your requests. Specify the provider name and source with the "::" separator and then column name to remove. The `routes.js` script will remove this column from the available columns of a table.
+
+## Authentication
+
+ChartFactor Node uses KeyCloak as an identity and authentication provider. To set up authentication, run the command below.
+
+```
+docker run --name kc_server -p 8080:8080 -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:26.1.1 start-de
+```

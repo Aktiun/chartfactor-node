@@ -13,6 +13,16 @@
         "url":"http://localhost:3000/",
         "bypassAuth": true
     },{
+        "name": "TD BigQuery",
+        "provider": "google-bigquery",
+        "projectId": "td-jira-450219",
+        "file": "etc/td-bigquery-private-key.json"
+    },{
+        "name": "Dev BigQuery",
+        "provider": "google-bigquery",
+        "projectId": "jira-sync-test",
+        "file": "etc/dev-bigquery-private-key.json"
+    },{
         "name": "BigQuery",
         "provider": "google-bigquery",
         "projectId": "tidal-solstice-206117",
