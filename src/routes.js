@@ -166,6 +166,27 @@ async function routes(fastify, options) {
         }
     });
 
+    fastify.post('/runPivotV2Totals/', async (request, reply) => {
+        let options = request.body;
+
+        if (!options) {
+            reply.code(417).type('text/html').send('Expectation Failed. Pivot V2 totals config is required.');
+            return null;
+        }
+
+        addFiltersToQuery(options);
+
+        try {
+            let resp = await providerInstances[options.source.provider]
+                .runPivotV2Totals(options, options.viz);
+
+            return resp;
+        } catch (err) {
+            console.error(err);
+            return err;
+        }
+    });
+
     fastify.post('/runRawQuery/', async (request, reply) => {
         let def = request.body.definition;
 
