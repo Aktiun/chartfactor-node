@@ -54,3 +54,22 @@ You may want to apply filters to users requests so that they can only see a port
 ## Adding metadata constraints
 
 You may want to hide table columns from users. This project provides an example of how to do that. In the `etc/metadataConstraints.json` file you will find an example of a metadata constraint applied to your requests. Specify the provider name and source with the "::" separator and then column name to remove. The `routes.js` script will remove this column from the available columns of a table.
+
+## Chart factor logging level
+You can set the logging level of your providers or Aktive objects with the environment variables `CF_LOG_LEVEL_PROVIDERS` and `CF_LOG_LEVEL_AKTIVE`. The available levels are `error`, `warn`, `info`, `debug`, and `trace`. For example, to set the logging level to debug, create a `.env` file in the root of the project with the following content:
+
+```
+# ChartFactor providers logging level
+CF_LOG_LEVEL_PROVIDERS=debug
+
+# ChartFactor Aktive logging level
+CF_LOG_LEVEL_AKTIVE=debug
+```
+
+## ChartFactor logging outputs
+You can set the logging outputs to a specific file using the environment variable `CF_LOG_PATH`. For example, to set the logging output to a file named `cf.log`, create a `.env` file in the root of the project with the following content:
+
+```
+# ChartFactor logging output file
+CF_LOG_PATH=/some/path/to/cf.log
+```
