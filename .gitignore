@@ -3,8 +3,8 @@ node_modules/*
 *.dev.js
 *.js.map
 .vscode/*
-etc/bigquery-private-key.json
 etc/databricks-token.json
+etc/*private-key.json
 *.log
 *.idea
 .env
