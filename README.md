@@ -54,3 +54,10 @@ You may want to apply filters to users requests so that they can only see a port
 ## Adding metadata constraints
 
 You may want to hide table columns from users. This project provides an example of how to do that. In the `etc/metadataConstraints.json` file you will find an example of a metadata constraint applied to your requests. Specify the provider name and source with the "::" separator and then column name to remove. The `routes.js` script will remove this column from the available columns of a table.
+
+## Set providers logging level
+You can set the logging level of your providers with the environment variable `CF_LOG_LEVEL_PROVIDERS`. The available levels are `error`, `warn`, `info`, `debug`, and `trace`. For example, to set the logging level to debug, create a `.env` file in the root of the project with the following content:
+
+```
+CF_LOG_LEVEL_PROVIDERS=debug
+```
