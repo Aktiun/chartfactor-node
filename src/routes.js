@@ -187,6 +187,25 @@ async function routes(fastify, options) {
         }
     });
 
+    fastify.post('/runPivotPaginate/', async (request, reply) => {
+        let options = request.body;
+
+        if (!options) {
+            reply.code(417).type('text/html').send('Expectation Failed. Pivot paginate config is required.');
+            return null;
+        }
+
+        try {
+            let resp = await providerInstances[options.source.provider]
+                .runPivotPaginate(options, options.definition, options.jobId);
+
+            return resp;
+        } catch (err) {
+            console.error(err);
+            return err;
+        }
+    });
+
     fastify.post('/runRawQuery/', async (request, reply) => {
         let def = request.body.definition;
 
