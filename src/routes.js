@@ -195,6 +195,15 @@ async function routes(fastify, options) {
             return null;
         }
 
+        if (!options.source || !options.source.provider) {
+            reply.code(400).type('text/html').send('Bad Request. source and provider are required.');
+            return null;
+        }
+        if (!providerInstances[options.source.provider]) {
+            reply.code(400).type('text/html').send('Bad Request. Unknown provider: ' + options.source.provider);
+            return null;
+        }
+
         try {
             let resp = await providerInstances[options.source.provider]
                 .runPivotPaginate(options, options.definition, options.jobId);
@@ -202,7 +211,10 @@ async function routes(fastify, options) {
             return resp;
         } catch (err) {
             console.error(err);
-            return err;
+            reply.code(500).send({
+                error: 'Internal Server Error',
+                message: 'An unexpected error occurred. Please try again later.'
+            });
         }
     });
 
