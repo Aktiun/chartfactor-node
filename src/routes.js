@@ -187,6 +187,37 @@ async function routes(fastify, options) {
         }
     });
 
+    fastify.post('/runPivotPaginate/', async (request, reply) => {
+        let options = request.body;
+
+        if (!options) {
+            reply.code(417).type('text/html').send('Expectation Failed. Pivot paginate config is required.');
+            return null;
+        }
+
+        if (!options.source || !options.source.provider) {
+            reply.code(400).type('text/html').send('Bad Request. source and provider are required.');
+            return null;
+        }
+        if (!providerInstances[options.source.provider]) {
+            reply.code(400).type('text/html').send('Bad Request. Unknown provider: ' + options.source.provider);
+            return null;
+        }
+
+        try {
+            let resp = await providerInstances[options.source.provider]
+                .runPivotPaginate(options, options.definition, options.jobId);
+
+            return resp;
+        } catch (err) {
+            console.error(err);
+            reply.code(500).send({
+                error: 'Internal Server Error',
+                message: 'An unexpected error occurred. Please try again later.'
+            });
+        }
+    });
+
     fastify.post('/runRawQuery/', async (request, reply) => {
         let def = request.body.definition;
 
