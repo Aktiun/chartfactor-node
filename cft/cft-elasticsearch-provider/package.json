@@ -1,6 +1,6 @@
 {
   "name": "cft-elasticsearch-provider",
-  "version": "6.1.12",
+  "version": "6.1.13",
   "description": "",
   "main": "cft-elasticsearch-provider.min.js",
   "scripts": {
