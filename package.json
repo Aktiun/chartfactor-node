@@ -1,6 +1,6 @@
 {
   "name": "chartfactor-node",
-  "version": "6.1.13",
+  "version": "6.1.14",
   "description": "A blazing fast universal data server for chartfactor toolkit.",
   "main": "index.js",
   "scripts": {
