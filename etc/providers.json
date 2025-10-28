@@ -16,6 +16,8 @@
         "name": "BigQuery",
         "provider": "google-bigquery",
         "projectId": "tidal-solstice-206117",
+        "enableCache": true,
+        "cacheTimeout": "12h",
         "file": "etc/bigquery-private-key.json"
     },{
         "name": "Databricks",
