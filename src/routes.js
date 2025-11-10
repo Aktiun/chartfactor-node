@@ -82,11 +82,25 @@ const addFiltersToQuery = (queryConfig) => {
     }
 }
 
+/**
+ * Ensures that the datasource is available for the given provider and source.
+ * @param {*} providerName 
+ * @param {*} sourceName 
+ * @returns 
+ */
 const ensureDatasource = async (providerName, sourceName) => {
+
+    if (!providerName || !sourceName) return;
+
     const prov = providerInstances[providerName];
 
     if (prov && prov.getDatasource) {
-        await prov.getDatasource(sourceName);
+        try {
+            await prov.getDatasource(sourceName);
+        } catch (err) {
+            cf.log.error(`Error ensuring datasource "${sourceName}" for provider "${providerName}": ${err.message}`);
+            throw err;
+        }
     }
 }
 
