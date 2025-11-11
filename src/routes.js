@@ -82,6 +82,28 @@ const addFiltersToQuery = (queryConfig) => {
     }
 }
 
+/**
+ * Ensures that the datasource is available for the given provider and source.
+ * @param {*} providerName 
+ * @param {*} sourceName 
+ * @returns 
+ */
+const ensureDatasource = async (providerName, sourceName) => {
+
+    if (!providerName || !sourceName) return;
+
+    const prov = providerInstances[providerName];
+
+    if (prov && prov.getDatasource) {
+        try {
+            await prov.getDatasource(sourceName);
+        } catch (err) {
+            cf.log.error(`Error ensuring datasource "${sourceName}" for provider "${providerName}": ${err.message}`);
+            throw err;
+        }
+    }
+}
+
 async function routes(fastify, options) {
     fastify.addContentTypeParser('application/json', { parseAs: 'string' }, function (req, body, done) {
         try {
@@ -117,6 +139,7 @@ async function routes(fastify, options) {
         addFiltersToQuery(queryConfig);
 
         try {
+            await ensureDatasource(queryConfig.source.provider, queryConfig.source.name);
             resp = await providerInstances[queryConfig.source.provider]
                 .visualize(queryConfig);
         } catch (err) {
@@ -156,6 +179,7 @@ async function routes(fastify, options) {
         addFiltersToQuery(countQuery);
 
         try {
+            await ensureDatasource(countQuery.source.provider, countQuery.source.name);
             let resp = await providerInstances[countQuery.source.provider]
                 .runCountQuery(countQuery);
 
@@ -177,6 +201,7 @@ async function routes(fastify, options) {
         addFiltersToQuery(options);
 
         try {
+            await ensureDatasource(options.source.provider, options.source.name);
             let resp = await providerInstances[options.source.provider]
                 .runPivotV2Totals(options, options.viz);
 
@@ -205,6 +230,7 @@ async function routes(fastify, options) {
         }
 
         try {
+            await ensureDatasource(options.source.provider, options.source.name);
             let resp = await providerInstances[options.source.provider]
                 .runPivotPaginate(options, options.definition, options.jobId);
 
@@ -229,6 +255,7 @@ async function routes(fastify, options) {
         addFiltersToQuery(def);
 
         try {
+            await ensureDatasource(def.source.provider, def.source.name);
             let resp = await providerInstances[def.source.provider]
                 .runRawQuery(def, request.body.params, request.body.sortModel);
 
