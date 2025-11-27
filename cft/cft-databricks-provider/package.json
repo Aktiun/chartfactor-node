@@ -1,6 +1,6 @@
 {
   "name": "cft-databricks-provider",
-  "version": "6.1.16",
+  "version": "6.2.0",
   "description": "",
   "main": "cft-databricks-provider.min.js",
   "scripts": {
