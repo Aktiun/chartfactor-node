@@ -1,6 +1,6 @@
 {
   "name": "cft-redshift-provider",
-  "version": "6.2.4",
+  "version": "6.2.5",
   "description": "",
   "main": "cft-redshift-provider.min.js",
   "scripts": {
